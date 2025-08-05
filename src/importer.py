@@ -58,9 +58,12 @@ class TempCategory:
         Goes through all the data to remove unecessary characters
         """
         self.category = self.category.split()[0]  # We remove the tabs
-        for i in self.data:
-            clean = re.findall(r'\"(.*?)\"', i)  # We remove the double quotes and separate (example line: "id" "2688")
-            self.dic[clean[0]] = num(clean[1])  # The values, IF possible are turned into either ints or floats
+        for i,x in enumerate(self.data):
+            clean = re.findall(r'\"(.*?)\"', x)  # We remove the double quotes and separate (example line: "id" "2688")
+            if self.category == 'connections':
+                self.dic[str(i)] = num(','.join(clean))
+            else:
+                self.dic[clean[0]] = num(clean[1])  # The values, IF possible are turned into either ints or floats
 
         for j in self.children:
             j.clean_up()  # Nested function calls
